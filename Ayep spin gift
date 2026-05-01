@@ -1,0 +1,160 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+<meta charset="UTF-8">
+<title>Gift Ayep - Luxury Spin</title>
+
+<style>
+body {
+    background: radial-gradient(circle, #1a1a1a, #000);
+    color: white;
+    text-align: center;
+    font-family: 'Georgia', serif;
+}
+
+h1 {
+    color: #D4Ac34;
+    margin-top: 20px;
+    letter-spacing: 2px;
+}
+
+#wrapper {
+    position: relativ
+    width: 320px;
+    margin: 40px auto;
+}
+
+/* Pointer elegan */
+#pointer {
+    width: 0;
+    height: 0;
+    border-left: 18px solid transparent;
+    border-right: 18px solid transparent;
+    border-top: 35px solid #F7E7A1;
+    position: absolute;
+    top: -40px;
+    left: 50%;
+    transform: translateX(-50%);
+    filter: drop-shadow(0 0 8px gold);
+}
+
+/* Canvas roda */
+canvas {
+    border-radius: 50%;
+    box-shadow: 0 0 25px rgba(212,175,55,0.6);
+}
+
+
+/* Tombol */
+button {
+    margin-top: 20px;
+    padding: 12px 30px;
+    background: linear-gradient(45deg, #D4AF37, #F7E7A1);
+    border: none;
+    font-weight: bold;
+    cursor: pointer;
+    color: black;
+    letter-spacing: 1px;
+    border-radius: 5px;
+}
+</style>
+</head>
+
+<body>
+
+<h1>GIFT AYEP</h1>
+<p>Luxury Lucky Spin</p>
+
+<div id="wrapper">
+    <div id="pointer"></div>
+    <canvas id="wheel" width="320" height="320"></canvas>
+</div>
+
+<button onclick="spin()">SPIN</button>
+
+<script>
+const canvas = document.getElementById("wheel");
+const ctx = canvas.getContext("2d");
+
+const segments = [
+    "💸 10K","💸 20K","💸 10K","💸 50K",
+    "💸 20K","💸 10K","❌ Coba Lagi","💸 20K"
+];
+
+const colors = ["#D4AF37","#111"]; // emas + hitam
+const arc = Math.PI * 2 / segments.length;
+
+let angle = 0;
+let spinning = false;
+
+/* Draw Wheel */
+function drawWheel() {
+    for (let i = 0; i < segments.length; i++) {
+        const start = angle + i * arc;
+        const end = start + arc;
+
+        ctx.beginPath();
+        ctx.fillStyle = colors[i % 2];
+        ctx.moveTo(160,160);
+        ctx.arc(160,160,150,start,end);
+        ctx.fill();
+
+        // Text
+        ctx.save();
+        ctx.fillStyle = "white";
+        ctx.translate(160,160);
+        ctx.rotate(start + arc/2);
+        ctx.textAlign = "right";
+        ctx.font = "bold 14px serif";
+        ctx.fillText(segments[i], 130, 5);
+        ctx.restore();
+    }
+}
+
+/* Animasi Spin Smooth */
+function spin() {
+    if (spinning) return;
+s    spinning = true;
+
+    let spinAngle = Math.random() * 3000 + 4000;
+    let duration = 4000;
+    let start = null;
+
+    function animate(timestamp) {
+        if (!start) start = timestamp;
+        let progress = timestamp - start;
+
+        let easeOut = 1 - Math.pow(1 - progress / duration, 3);
+        let currentAngle = spinAngle * easeOut;
+
+        angle = currentAngle * Math.PI / 180;
+
+        ctx.clearRect(0,0,320,320);
+        drawWheel();
+
+        if (progress < duration) {
+            requestAnimationFrame(animate);
+        } else {
+            finishSpin();
+        }
+    }
+
+    requestAnimationFrame(animate);
+}
+
+/* Tentukan hasil */
+function finishSpin() {
+    let deg = (angle * 180 / Math.PI + 90);
+    let index = Math.floor((segments.length - (deg % 360) / (360 / segments.length)) % segments.length);
+
+    setTimeout(() => {
+        alert("🎉 Kamu dapat: " + segments[index]);
+        spinning = false;
+    }, 300);
+}
+
+drawWheel();
+</script>
+
+</body>
+</html>
