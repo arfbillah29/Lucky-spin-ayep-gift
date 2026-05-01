@@ -1,0 +1,72 @@
+body {
+    background: radial-gradient(circle, #0f0f0f, #000);
+    color: white;
+    text-align: center;
+    font-family: 'Georgia', serif;
+}
+
+/* Judul */
+h1 {
+    color: #D4AF37;
+    margin-top: 20px;
+    letter-spacing: 3px;
+    text-shadow: 0 0 10px gold;
+}
+
+.subtitle {
+    color: #bbb;
+    margin-bottom: 20px;
+}
+
+/* Wrapper */
+#wrapper {
+    position: relative;
+    width: 320px;
+    margin: 40px auto;
+}
+
+/* Pointer */
+#pointer {
+    width: 0;
+    height: 0;
+    border-left: 18px solid transparent;
+    border-right: 18px solid transparent;
+    border-top: 35px solid #FFD700;
+    position: absolute;
+    top: -40px;
+    left: 50%;
+    transform: translateX(-50%);
+    filter: drop-shadow(0 0 10px gold);
+}
+
+/* Wheel */
+canvas {
+    border-radius: 50%;
+    box-shadow: 0 0 30px rgba(212,175,55,0.7);
+    transition: transform 0.3s;
+}
+
+/* Button */
+button {
+    margin-top: 20px;
+    padding: 14px 40px;
+    background: linear-gradient(45deg, #D4AF37, #FFF2A6);
+    border: none;
+    font-weight: bold;
+    cursor: pointer;
+    color: black;
+    letter-spacing: 2px;
+    border-radius: 6px;
+    transition: 0.3s;
+}
+
+/* Hover efek */
+button:hover {
+    transform: scale(1.08);
+    box-shadow: 0 0 15px gold;
+}
+
+/* Klik efek */
+button:active {
+    transform: scale(0.95);
+}
