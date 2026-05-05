@@ -3,158 +3,423 @@
 <head>
 <meta charset="UTF-8">
 <title>Gift Ayep - Luxury Spin</title>
-
 <style>
-body {
-    background: radial-gradient(circle, #1a1a1a, #000);
+  @import url('https://fonts.googleapis.com/css2?family=Cinzel:wght@600;800&family=Lato:wght@300;400&display=swap');
+
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+  body {
+    min-height: 100vh;
+    background: radial-gradient(ellipse at top, #1c1400 0%, #000 70%);
     color: white;
     text-align: center;
-    font-family: 'Georgia', serif;
-}
+    font-family: 'Lato', sans-serif;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding: 24px 16px 40px;
+  }
 
-h1 {
-    color: #D4Ac34;
-    margin-top: 20px;
+  h1 {
+    font-family: 'Cinzel', serif;
+    font-weight: 800;
+    font-size: 2rem;
+    color: #F7E07A;
+    letter-spacing: 6px;
+    text-shadow: 0 0 20px rgba(212,175,55,0.7);
+    margin-bottom: 4px;
+  }
+
+  .subtitle {
+    font-family: 'Lato', sans-serif;
+    font-weight: 300;
+    font-size: 0.8rem;
+    letter-spacing: 4px;
+    color: #a07c30;
+    text-transform: uppercase;
+    margin-bottom: 28px;
+  }
+
+  /* ─── Ticket Input ─── */
+  #ticket-section {
+    background: linear-gradient(135deg, #1a1400, #2a1f00);
+    border: 1px solid #4a3800;
+    border-radius: 12px;
+    padding: 20px 24px;
+    width: 100%;
+    max-width: 340px;
+    margin-bottom: 24px;
+  }
+
+  #ticket-section label {
+    display: block;
+    font-family: 'Cinzel', serif;
+    font-size: 0.7rem;
+    letter-spacing: 3px;
+    color: #D4AF37;
+    margin-bottom: 10px;
+  }
+
+  #ticket-input-row {
+    display: flex;
+    gap: 8px;
+  }
+
+  #ticketInput {
+    flex: 1;
+    background: #0d0900;
+    border: 1px solid #5a4500;
+    color: #F7E07A;
+    font-family: 'Lato', sans-serif;
+    font-size: 1rem;
     letter-spacing: 2px;
-}
+    padding: 10px 14px;
+    border-radius: 6px;
+    outline: none;
+    text-transform: uppercase;
+    transition: border-color 0.3s;
+  }
 
-#wrapper {
-    position: relativ
+  #ticketInput:focus { border-color: #D4AF37; }
+
+  #validateBtn {
+    background: linear-gradient(135deg, #D4AF37, #F7E07A);
+    border: none;
+    color: #000;
+    font-family: 'Cinzel', serif;
+    font-size: 0.75rem;
+    font-weight: 700;
+    letter-spacing: 1px;
+    padding: 10px 16px;
+    border-radius: 6px;
+    cursor: pointer;
+    transition: opacity 0.2s;
+  }
+
+  #validateBtn:hover { opacity: 0.85; }
+
+  #ticket-status {
+    margin-top: 10px;
+    font-size: 0.8rem;
+    letter-spacing: 1px;
+    min-height: 18px;
+    transition: color 0.3s;
+  }
+
+  .status-ok   { color: #6fe083; }
+  .status-err  { color: #e06f6f; }
+  .status-used { color: #e0a06f; }
+
+  /* ─── Wheel ─── */
+  #wrapper {
+    position: relative;
     width: 320px;
-    margin: 40px auto;
-}
+    height: 320px;
+    margin-bottom: 8px;
+  }
 
-/* Pointer elegan */
-#pointer {
+  #pointer {
     width: 0;
     height: 0;
     border-left: 18px solid transparent;
     border-right: 18px solid transparent;
-    border-top: 35px solid #F7E7A1;
+    border-top: 36px solid #F7E7A1;
     position: absolute;
-    top: -40px;
+    top: -38px;
     left: 50%;
     transform: translateX(-50%);
-    filter: drop-shadow(0 0 8px gold);
-}
+    filter: drop-shadow(0 0 10px gold);
+    z-index: 10;
+  }
 
-/* Canvas roda */
-canvas {
+  canvas {
     border-radius: 50%;
-    box-shadow: 0 0 25px rgba(212,175,55,0.6);
-}
+    box-shadow: 0 0 35px rgba(212,175,55,0.5), 0 0 5px rgba(212,175,55,0.2);
+    display: block;
+  }
 
-
-/* Tombol */
-button {
+  /* ─── Spin Button ─── */
+  #spinBtn {
     margin-top: 20px;
-    padding: 12px 30px;
+    padding: 14px 40px;
     background: linear-gradient(45deg, #D4AF37, #F7E7A1);
     border: none;
-    font-weight: bold;
+    font-family: 'Cinzel', serif;
+    font-weight: 700;
+    font-size: 1rem;
+    letter-spacing: 3px;
     cursor: pointer;
     color: black;
-    letter-spacing: 1px;
-    border-radius: 5px;
-}
+    border-radius: 6px;
+    transition: opacity 0.2s, transform 0.1s;
+    box-shadow: 0 4px 20px rgba(212,175,55,0.4);
+  }
+
+  #spinBtn:hover:not(:disabled) { opacity: 0.9; transform: translateY(-1px); }
+  #spinBtn:disabled { opacity: 0.35; cursor: not-allowed; }
+
+  /* ─── Result Modal ─── */
+  #modal {
+    display: none;
+    position: fixed;
+    inset: 0;
+    background: rgba(0,0,0,0.85);
+    backdrop-filter: blur(4px);
+    align-items: center;
+    justify-content: center;
+    z-index: 999;
+  }
+
+  #modal.show { display: flex; }
+
+  #modal-box {
+    background: linear-gradient(135deg, #1a1200, #2e2000);
+    border: 2px solid #D4AF37;
+    border-radius: 16px;
+    padding: 36px 40px;
+    text-align: center;
+    animation: popIn 0.4s cubic-bezier(.34,1.56,.64,1);
+  }
+
+  @keyframes popIn {
+    from { transform: scale(0.6); opacity: 0; }
+    to   { transform: scale(1);   opacity: 1; }
+  }
+
+  #modal-box .emoji { font-size: 3rem; margin-bottom: 10px; }
+  #modal-box h2 { font-family:'Cinzel',serif; color:#F7E07A; font-size:1.1rem; letter-spacing:3px; margin-bottom:6px; }
+  #modal-box .prize { font-size: 2.2rem; font-weight: 700; color: #fff; margin-bottom: 20px; }
+
+  #modal-close {
+    background: linear-gradient(45deg, #D4AF37, #F7E07A);
+    border: none;
+    color: #000;
+    font-family: 'Cinzel', serif;
+    font-size: 0.8rem;
+    font-weight: 700;
+    letter-spacing: 2px;
+    padding: 10px 28px;
+    border-radius: 6px;
+    cursor: pointer;
+  }
 </style>
 </head>
-
 <body>
 
 <h1>GIFT AYEP</h1>
-<p>Luxury Lucky Spin</p>
+<p class="subtitle">Luxury Lucky Spin</p>
 
-<div id="wrapper">
-    <div id="pointer"></div>
-    <canvas id="wheel" width="320" height="320"></canvas>
+<!-- Ticket Input -->
+<div id="ticket-section">
+  <label>MASUKKAN KODE TIKET ANDA</label>
+  <div id="ticket-input-row">
+    <input id="ticketInput" type="text" placeholder="CONTOH: AYEP-001" maxlength="12" />
+    <button id="validateBtn" onclick="validateTicket()">CEK</button>
+  </div>
+  <div id="ticket-status"></div>
 </div>
 
-<button onclick="spin()">SPIN</button>
+<!-- Wheel -->
+<div id="wrapper">
+  <div id="pointer"></div>
+  <canvas id="wheel" width="320" height="320"></canvas>
+</div>
+
+<button id="spinBtn" onclick="spin()" disabled>SPIN</button>
+
+<!-- Result Modal -->
+<div id="modal">
+  <div id="modal-box">
+    <div class="emoji">🎉</div>
+    <h2>SELAMAT!</h2>
+    <div class="prize" id="modal-prize"></div>
+    <button id="modal-close" onclick="closeModal()">TUTUP</button>
+  </div>
+</div>
 
 <script>
+// ════════════════════════════════════════════
+// DAFTAR TIKET VALID
+// Tambah / hapus tiket di sini sesuai kebutuhan
+// ════════════════════════════════════════════
+const validTickets = new Set([
+  "AYEP-001","AYEP-002","AYEP-003","AYEP-004","AYEP-005",
+  "AYEP-006","AYEP-007","AYEP-008","AYEP-009","AYEP-010",
+  // Tambah lebih banyak di sini...
+]);
+
+// Tiket yang sudah dipakai disimpan di localStorage
+function getUsedTickets() {
+  return JSON.parse(localStorage.getItem("usedTickets") || "[]");
+}
+function markTicketUsed(code) {
+  const used = getUsedTickets();
+  used.push(code);
+  localStorage.setItem("usedTickets", JSON.stringify(used));
+}
+function isTicketUsed(code) {
+  return getUsedTickets().includes(code);
+}
+
+// ════════════════════════════════════════════
+// VALIDASI TIKET
+// ════════════════════════════════════════════
+let currentTicket = null;
+
+function validateTicket() {
+  const raw = document.getElementById("ticketInput").value.trim().toUpperCase();
+  const statusEl = document.getElementById("ticket-status");
+  const spinBtn  = document.getElementById("spinBtn");
+
+  currentTicket = null;
+  spinBtn.disabled = true;
+
+  if (!raw) {
+    statusEl.textContent = "Masukkan kode tiket terlebih dahulu.";
+    statusEl.className = "status-err";
+    return;
+  }
+
+  if (!validTickets.has(raw)) {
+    statusEl.textContent = "❌ Kode tiket tidak valid.";
+    statusEl.className = "status-err";
+    return;
+  }
+
+  if (isTicketUsed(raw)) {
+    statusEl.textContent = "⚠️ Tiket ini sudah pernah digunakan.";
+    statusEl.className = "status-used";
+    return;
+  }
+
+  // Valid & belum dipakai
+  currentTicket = raw;
+  statusEl.textContent = "✅ Tiket valid! Silakan spin.";
+  statusEl.className = "status-ok";
+  spinBtn.disabled = false;
+}
+
+// ════════════════════════════════════════════
+// WHEEL
+// ════════════════════════════════════════════
 const canvas = document.getElementById("wheel");
-const ctx = canvas.getContext("2d");
+const ctx    = canvas.getContext("2d");
 
 const segments = [
-    "💸 10K","💸 20K","💸 10K","💸 50K",
-    "💸 20K","💸 10K","❌ Coba Lagi","💸 20K"
+  "💸 10K","💸 20K","💸 10K","💸 50K",
+  "💸 20K","💸 10K","❌ Coba Lagi","💸 20K"
 ];
 
-const colors = ["#D4AF37","#111"]; // emas + hitam
-const arc = Math.PI * 2 / segments.length;
-
-let angle = 0;
+const colors = ["#D4AF37","#111"];
+const arc    = Math.PI * 2 / segments.length;
+let angle    = 0;
 let spinning = false;
 
-/* Draw Wheel */
 function drawWheel() {
-    for (let i = 0; i < segments.length; i++) {
-        const start = angle + i * arc;
-        const end = start + arc;
+  for (let i = 0; i < segments.length; i++) {
+    const start = angle + i * arc;
+    const end   = start + arc;
 
-        ctx.beginPath();
-        ctx.fillStyle = colors[i % 2];
-        ctx.moveTo(160,160);
-        ctx.arc(160,160,150,start,end);
-        ctx.fill();
+    ctx.beginPath();
+    ctx.fillStyle = colors[i % 2];
+    ctx.moveTo(160, 160);
+    ctx.arc(160, 160, 150, start, end);
+    ctx.fill();
 
-        // Text
-        ctx.save();
-        ctx.fillStyle = "white";
-        ctx.translate(160,160);
-        ctx.rotate(start + arc/2);
-        ctx.textAlign = "right";
-        ctx.font = "bold 14px serif";
-        ctx.fillText(segments[i], 130, 5);
-        ctx.restore();
-    }
+    // Subtle border between segments
+    ctx.beginPath();
+    ctx.strokeStyle = "rgba(212,175,55,0.3)";
+    ctx.lineWidth = 1.5;
+    ctx.moveTo(160, 160);
+    ctx.arc(160, 160, 150, start, end);
+    ctx.closePath();
+    ctx.stroke();
+
+    // Text
+    ctx.save();
+    ctx.fillStyle  = "#fff";
+    ctx.shadowColor = "rgba(0,0,0,0.6)";
+    ctx.shadowBlur  = 3;
+    ctx.translate(160, 160);
+    ctx.rotate(start + arc / 2);
+    ctx.textAlign  = "right";
+    ctx.font       = "bold 13px 'Lato', serif";
+    ctx.fillText(segments[i], 138, 5);
+    ctx.restore();
+  }
+
+  // Center circle
+  const grad = ctx.createRadialGradient(160,160,0,160,160,22);
+  grad.addColorStop(0, "#F7E07A");
+  grad.addColorStop(1, "#8B6914");
+  ctx.beginPath();
+  ctx.arc(160,160,22,0,Math.PI*2);
+  ctx.fillStyle = grad;
+  ctx.fill();
 }
 
-/* Animasi Spin Smooth */
 function spin() {
-    if (spinning) return;
-s    spinning = true;
+  if (spinning || !currentTicket) return;
+  spinning = true;
+  document.getElementById("spinBtn").disabled = true;
 
-    let spinAngle = Math.random() * 3000 + 4000;
-    let duration = 4000;
-    let start = null;
+  // Mark ticket used IMMEDIATELY so double-click can't trigger twice
+  markTicketUsed(currentTicket);
+  currentTicket = null;
 
-    function animate(timestamp) {
-        if (!start) start = timestamp;
-        let progress = timestamp - start;
+  const spinAngle = Math.random() * 3000 + 4000;
+  const duration  = 5000;
+  let start       = null;
+  const startAngle = angle * 180 / Math.PI;
 
-        let easeOut = 1 - Math.pow(1 - progress / duration, 3);
-        let currentAngle = spinAngle * easeOut;
+  function animate(ts) {
+    if (!start) start = ts;
+    const progress  = ts - start;
+    const easeOut   = 1 - Math.pow(1 - Math.min(progress / duration, 1), 3);
+    const current   = startAngle + spinAngle * easeOut;
 
-        angle = currentAngle * Math.PI / 180;
+    angle = current * Math.PI / 180;
+    ctx.clearRect(0, 0, 320, 320);
+    drawWheel();
 
-        ctx.clearRect(0,0,320,320);
-        drawWheel();
-
-        if (progress < duration) {
-            requestAnimationFrame(animate);
-        } else {
-            finishSpin();
-        }
+    if (progress < duration) {
+      requestAnimationFrame(animate);
+    } else {
+      finishSpin();
     }
+  }
 
-    requestAnimationFrame(animate);
+  requestAnimationFrame(animate);
 }
 
-/* Tentukan hasil */
 function finishSpin() {
-    let deg = (angle * 180 / Math.PI + 90);
-    let index = Math.floor((segments.length - (deg % 360) / (360 / segments.length)) % segments.length);
+  // Pointer is at top (270° in standard coords = -90°)
+  // Normalize angle so we find which segment is under pointer
+  let deg = ((angle * 180 / Math.PI) % 360 + 360) % 360;
+  let pointer = (360 - deg + 270) % 360; // rotate to pointer
+  let index   = Math.floor(pointer / (360 / segments.length)) % segments.length;
 
-    setTimeout(() => {
-        alert("🎉 Kamu dapat: " + segments[index]);
-        spinning = false;
-    }, 300);
+  setTimeout(() => {
+    showModal(segments[index]);
+    spinning = false;
+
+    // Reset UI
+    document.getElementById("ticketInput").value = "";
+    document.getElementById("ticket-status").textContent = "Tiket berhasil digunakan.";
+    document.getElementById("ticket-status").className   = "status-used";
+  }, 300);
+}
+
+function showModal(prize) {
+  document.getElementById("modal-prize").textContent = prize;
+  document.getElementById("modal").classList.add("show");
+}
+
+function closeModal() {
+  document.getElementById("modal").classList.remove("show");
 }
 
 drawWheel();
 </script>
-
 </body>
 </html>
