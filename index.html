@@ -1,24 +1,43 @@
 <!DOCTYPE html>
 <html lang="id">
 <head>
-<meta charset="UTF-8">
-<title>Gift Ayep - Luxury Spin</title>
-
-<link rel="stylesheet" href="style.css">
+  <meta charset="UTF-8">
+  <title>Gift Ayep - Luxury Spin</title>
+  <link rel="stylesheet" href="style.css">
 </head>
-
 <body>
 
-<h1>GIFT AYEP</h1>
-<p class="subtitle">Luxury Lucky Spin</p>
+  <h1>GIFT AYEP</h1>
+  <p class="subtitle">Luxury Lucky Spin</p>
 
-<div id="wrapper">
+  <!-- Ticket Input -->
+  <div id="ticket-section">
+    <label>MASUKKAN KODE TIKET ANDA</label>
+    <div id="ticket-input-row">
+      <input id="ticketInput" type="text" placeholder="CONTOH: AYEP-001" maxlength="12" />
+      <button id="validateBtn" onclick="validateTicket()">CEK</button>
+    </div>
+    <div id="ticket-status"></div>
+  </div>
+
+  <!-- Wheel -->
+  <div id="wrapper">
     <div id="pointer"></div>
     <canvas id="wheel" width="320" height="320"></canvas>
-</div>
+  </div>
 
-<button id="spinBtn">SPIN</button>
+  <button id="spinBtn" onclick="spin()" disabled>SPIN</button>
 
-<script src="script.js"></script>
+  <!-- Result Modal -->
+  <div id="modal">
+    <div id="modal-box">
+      <div class="emoji">🎉</div>
+      <h2>SELAMAT!</h2>
+      <div class="prize" id="modal-prize"></div>
+      <button id="modal-close" onclick="closeModal()">TUTUP</button>
+    </div>
+  </div>
+
+  <script src="script.js"></script>
 </body>
 </html>
