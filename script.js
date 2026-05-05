@@ -3,8 +3,8 @@
 // Tambah / hapus tiket di sini sesuai kebutuhan
 // ════════════════════════════════════════════
 const validTickets = new Set([
-  "AYEP-001","AYEP-002","AYEP-003","AYEP-004","AYEP-005",
-  "AYEP-006","AYEP-007","AYEP-008","AYEP-009","AYEP-010",
+  "AYEP-001","AYEP-0070","AYEP-0030","AYEP-0045","AYEP-0059",
+  "AYEP-0078","AYEP-0074","AYEP-0086","AYEP-0098","AYEP-0102",
   // Tambah lebih banyak di sini...
 ]);
 
