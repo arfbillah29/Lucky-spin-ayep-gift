@@ -1,72 +1,231 @@
-body {
-    background: radial-gradient(circle, #0f0f0f, #000);
-    color: white;
-    text-align: center;
-    font-family: 'Georgia', serif;
+@import url('https://fonts.googleapis.com/css2?family=Cinzel:wght@600;800&family=Lato:wght@300;400&display=swap');
+
+*, *::before, *::after {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
 }
 
-/* Judul */
+body {
+  min-height: 100vh;
+  background: radial-gradient(ellipse at top, #1c1400 0%, #000 70%);
+  color: white;
+  text-align: center;
+  font-family: 'Lato', sans-serif;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: 24px 16px 40px;
+}
+
 h1 {
-    color: #D4AF37;
-    margin-top: 20px;
-    letter-spacing: 3px;
-    text-shadow: 0 0 10px gold;
+  font-family: 'Cinzel', serif;
+  font-weight: 800;
+  font-size: 2rem;
+  color: #F7E07A;
+  letter-spacing: 6px;
+  text-shadow: 0 0 20px rgba(212,175,55,0.7);
+  margin-bottom: 4px;
 }
 
 .subtitle {
-    color: #bbb;
-    margin-bottom: 20px;
+  font-family: 'Lato', sans-serif;
+  font-weight: 300;
+  font-size: 0.8rem;
+  letter-spacing: 4px;
+  color: #a07c30;
+  text-transform: uppercase;
+  margin-bottom: 28px;
 }
 
-/* Wrapper */
+/* ─── Ticket Input ─── */
+#ticket-section {
+  background: linear-gradient(135deg, #1a1400, #2a1f00);
+  border: 1px solid #4a3800;
+  border-radius: 12px;
+  padding: 20px 24px;
+  width: 100%;
+  max-width: 340px;
+  margin-bottom: 24px;
+}
+
+#ticket-section label {
+  display: block;
+  font-family: 'Cinzel', serif;
+  font-size: 0.7rem;
+  letter-spacing: 3px;
+  color: #D4AF37;
+  margin-bottom: 10px;
+}
+
+#ticket-input-row {
+  display: flex;
+  gap: 8px;
+}
+
+#ticketInput {
+  flex: 1;
+  background: #0d0900;
+  border: 1px solid #5a4500;
+  color: #F7E07A;
+  font-family: 'Lato', sans-serif;
+  font-size: 1rem;
+  letter-spacing: 2px;
+  padding: 10px 14px;
+  border-radius: 6px;
+  outline: none;
+  text-transform: uppercase;
+  transition: border-color 0.3s;
+}
+
+#ticketInput:focus {
+  border-color: #D4AF37;
+}
+
+#validateBtn {
+  background: linear-gradient(135deg, #D4AF37, #F7E07A);
+  border: none;
+  color: #000;
+  font-family: 'Cinzel', serif;
+  font-size: 0.75rem;
+  font-weight: 700;
+  letter-spacing: 1px;
+  padding: 10px 16px;
+  border-radius: 6px;
+  cursor: pointer;
+  transition: opacity 0.2s;
+}
+
+#validateBtn:hover {
+  opacity: 0.85;
+}
+
+#ticket-status {
+  margin-top: 10px;
+  font-size: 0.8rem;
+  letter-spacing: 1px;
+  min-height: 18px;
+  transition: color 0.3s;
+}
+
+.status-ok   { color: #6fe083; }
+.status-err  { color: #e06f6f; }
+.status-used { color: #e0a06f; }
+
+/* ─── Wheel ─── */
 #wrapper {
-    position: relative;
-    width: 320px;
-    margin: 40px auto;
+  position: relative;
+  width: 320px;
+  height: 320px;
+  margin-bottom: 8px;
 }
 
-/* Pointer */
 #pointer {
-    width: 0;
-    height: 0;
-    border-left: 18px solid transparent;
-    border-right: 18px solid transparent;
-    border-top: 35px solid #FFD700;
-    position: absolute;
-    top: -40px;
-    left: 50%;
-    transform: translateX(-50%);
-    filter: drop-shadow(0 0 10px gold);
+  width: 0;
+  height: 0;
+  border-left: 18px solid transparent;
+  border-right: 18px solid transparent;
+  border-top: 36px solid #F7E7A1;
+  position: absolute;
+  top: -38px;
+  left: 50%;
+  transform: translateX(-50%);
+  filter: drop-shadow(0 0 10px gold);
+  z-index: 10;
 }
 
-/* Wheel */
 canvas {
-    border-radius: 50%;
-    box-shadow: 0 0 30px rgba(212,175,55,0.7);
-    transition: transform 0.3s;
+  border-radius: 50%;
+  box-shadow: 0 0 35px rgba(212,175,55,0.5), 0 0 5px rgba(212,175,55,0.2);
+  display: block;
 }
 
-/* Button */
-button {
-    margin-top: 20px;
-    padding: 14px 40px;
-    background: linear-gradient(45deg, #D4AF37, #FFF2A6);
-    border: none;
-    font-weight: bold;
-    cursor: pointer;
-    color: black;
-    letter-spacing: 2px;
-    border-radius: 6px;
-    transition: 0.3s;
+/* ─── Spin Button ─── */
+#spinBtn {
+  margin-top: 20px;
+  padding: 14px 40px;
+  background: linear-gradient(45deg, #D4AF37, #F7E7A1);
+  border: none;
+  font-family: 'Cinzel', serif;
+  font-weight: 700;
+  font-size: 1rem;
+  letter-spacing: 3px;
+  cursor: pointer;
+  color: black;
+  border-radius: 6px;
+  transition: opacity 0.2s, transform 0.1s;
+  box-shadow: 0 4px 20px rgba(212,175,55,0.4);
 }
 
-/* Hover efek */
-button:hover {
-    transform: scale(1.08);
-    box-shadow: 0 0 15px gold;
+#spinBtn:hover:not(:disabled) {
+  opacity: 0.9;
+  transform: translateY(-1px);
 }
 
-/* Klik efek */
-button:active {
-    transform: scale(0.95);
+#spinBtn:disabled {
+  opacity: 0.35;
+  cursor: not-allowed;
+}
+
+/* ─── Result Modal ─── */
+#modal {
+  display: none;
+  position: fixed;
+  inset: 0;
+  background: rgba(0,0,0,0.85);
+  backdrop-filter: blur(4px);
+  align-items: center;
+  justify-content: center;
+  z-index: 999;
+}
+
+#modal.show {
+  display: flex;
+}
+
+#modal-box {
+  background: linear-gradient(135deg, #1a1200, #2e2000);
+  border: 2px solid #D4AF37;
+  border-radius: 16px;
+  padding: 36px 40px;
+  text-align: center;
+  animation: popIn 0.4s cubic-bezier(.34,1.56,.64,1);
+}
+
+@keyframes popIn {
+  from { transform: scale(0.6); opacity: 0; }
+  to   { transform: scale(1);   opacity: 1; }
+}
+
+#modal-box .emoji {
+  font-size: 3rem;
+  margin-bottom: 10px;
+}
+
+#modal-box h2 {
+  font-family: 'Cinzel', serif;
+  color: #F7E07A;
+  font-size: 1.1rem;
+  letter-spacing: 3px;
+  margin-bottom: 6px;
+}
+
+#modal-box .prize {
+  font-size: 2.2rem;
+  font-weight: 700;
+  color: #fff;
+  margin-bottom: 20px;
+}
+
+#modal-close {
+  background: linear-gradient(45deg, #D4AF37, #F7E07A);
+  border: none;
+  color: #000;
+  font-family: 'Cinzel', serif;
+  font-size: 0.8rem;
+  font-weight: 700;
+  letter-spacing: 2px;
+  padding: 10px 28px;
+  border-radius: 6px;
+  cursor: pointer;
 }
